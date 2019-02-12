@@ -88,7 +88,7 @@ def get_projection_grid(b, point_cloud, radius, grid_type="Driscoll-Healy"):
     return grid
 
 
-def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
+def pairwise_distance(grid, point_cloud, logger, ctype="Gaussian"):
     """Compute the distance between a point cloud and grid
     :param ctype: "Gaussian" or "Potential"
     :param grid: tensor (train_size * num_points, 2b * 2b, 3)
@@ -132,11 +132,17 @@ def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
         assert len(sum_up.shape) == 1
 
         if ctype == "Gaussian":
-            transform = torch.exp(sum_up)
+            """the value of sum_up is around 1024, so I add the constant to make sure transform is not NaN
+            """
+            transform = torch.exp(- sum_up / 1000.0)
         if ctype == "Potential": # borrow from molecules charge
+            """ the value of sum_up ** (-1) is around 0.0010
+            """
             transform = sum_up ** (-1)
 
         result[i] = transform
+
+        logger.info(i)
 
     return result  # (train_size * num_points, 2b * 2b)
 
@@ -181,7 +187,7 @@ def main():
     f_train = h5py.File(args.train_file_path)  # the point is ranged from -1 to 1
     f_test = h5py.File(args.test_file_path)
     if args.demo:
-        train_size = 10
+        train_size = 2
     else:
         train_size = f_train['data'].shape[0]
     num_points = f_train['data'].shape[1]
@@ -213,14 +219,16 @@ def main():
     # pairwise_distance returns tensor (train_size * num_points, 2b * 2b)
     tensor_data_train = pairwise_distance(grid=grid,
                                           point_cloud=train_torch_dataset,
+                                          logger=logger,
                                           ctype="Gaussian")
     tensor_data_train = tensor_data_train.reshape(train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth)
-    tensor_label_train = f_train['label'][()]
+    tensor_label_train = f_train['labels'][()]
 
     trainset = DataLoader(dataset=MNIST(tensor_data_train, tensor_label_train),
                           batch_size=args.batchsize,
                           shuffle=True)
-
+    for ts in trainset:
+        print(ts)
     # question: how to transform test set? How should the radius set, and the
 
 
