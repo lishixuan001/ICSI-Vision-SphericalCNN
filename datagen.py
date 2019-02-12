@@ -215,7 +215,7 @@ def main():
                                           point_cloud=train_torch_dataset,
                                           ctype="Gaussian")
     tensor_data_train = tensor_data_train.reshape(train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth)
-    tensor_label_train = f_train['label'][()]
+    tensor_label_train = f_train['labels'][()]
 
     trainset = DataLoader(dataset=MNIST(tensor_data_train, tensor_label_train),
                           batch_size=args.batchsize,
