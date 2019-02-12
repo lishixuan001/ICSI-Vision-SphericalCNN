@@ -1,4 +1,4 @@
-# PointCloud Classification Segmentation With Spherical CNNs
+# PointCloud Classification & Segmentation With Spherical CNNs
 > Implementation of Sphereical CNNs on PointCloud datasets
 
 ## Training & Running [Notes]
