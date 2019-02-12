@@ -34,36 +34,49 @@ def get_projection_grid(b, point_cloud, radius, grid_type="Driscoll-Healy"):
     https://github.com/jonas-koehler/s2cnn/blob/07ad63441730811dcda2ccf9ac4027f406f5b605/examples/mnist/gendata.py#L65
     returns the spherical grid in euclidean coordinates
     :param b: the number of grids on the sphere
-    :param point_cloud: tensor (train_size, num_point, num_dim)
+    :param point_cloud: tensor (train_size, num_points, num_dim)
     :param grid_type: "Driscoll-Healy"
-    :return: tensor (train_size, num_point, 3)
+    :return: tensor (train_size *num_points, 4 * b * b, 3)
     """
     train_size = point_cloud.shape[0]
-    num_point = point_cloud.shape[1]
+    num_dim = point_cloud.shape[-1]
+    num_points = point_cloud.shape[1]
+    # theta in shape (2b, 2b)
     theta, phi = S2.meshgrid(b=b, grid_type=grid_type) # theta in range[0, pi], phi in range[0, 2pi]
-    x_ = radius * np.sin(theta) * np.cos(phi) + point_cloud[:, :, 0]
-    y_ = radius * np.sin(theta) * np.sin(phi) + point_cloud[:, :, 1]
-    z_ = radius * np.cos(theta) + point_cloud[:, :, 2]
-    x = torch.unsqueeze(x_, 2)
+
+    point_cloud = point_cloud.reshape((-1, num_dim)) # (train_size * num_points, 3)
+
+    x_ = radius * np.sin(theta) * np.cos(phi)
+    x = x_.reshape((1, 4 * b * b))
+    x = x + point_cloud[:, 0] # (train_size * num_points, 4 * b * b)
+
+    y_ = radius * np.sin(theta) * np.sin(phi)
+    y = y_.reshape((1, 4 * b * b))
+    y = y + point_cloud[:, 1]
+
+    z_ = radius * np.cos(theta)
+    z = z_.reshape((1, 4 * b * b))
+    z = z + point_cloud[:, 2]
+    x = torch.unsqueeze(x_, 2) # (train_size * num_points, 4 * b * b, 1)
     y = torch.unsqueeze(y_, 2)
     z = torch.unsqueeze(z_, 2)
     grid = torch.cat((x, y, z), 2)
-    assert grid.shape == torch.Size([train_size, 4 * b * b, 3])
+    assert grid.shape == torch.Size([train_size * num_points, 4 * b * b, 3])
     return grid
 
 
-def pairwise_distance(grid, point_cloud, type="Gaussian"):
+def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
     """Compute pairwise distance of a point cloud.
-    :param grid: tensor (train_size, 2b * 2b, 3)
-    :param point_cloud: tensor (train_size, num_points, num_dims)
+    :param ctype: "Gaussian" or "Potential"
+    :param grid: tensor (train_size * num_points, 2b * 2b, 3)
+    :param point_cloud: tensor (train_size * num_points, num_dims)
     :return: pairwise distance: (train_size, 2b, 2b)
     """
     point_cloud = torch.from_numpy(point_cloud)
-    train_size = point_cloud.shape[0]  # point_cloud.get_shape().as_list()[0]
-    num_points = point_cloud.shape[1]
+    num_point_all = point_cloud.shape[0]  # point_cloud.get_shape().as_list()[0]
     if point_cloud.shape[-1] == 2:
-        zero_padding = torch.zeros((train_size, num_points, 1), dtype=point_cloud.dtype)
-        point_cloud = torch.cat((point_cloud, zero_padding), 2)
+        zero_padding = torch.zeros((num_point_all, 1), dtype=point_cloud.dtype)
+        point_cloud = torch.cat((point_cloud, zero_padding), 1)
 
     assert point_cloud.shape[-1] == 3
     # point_cloud = torch.squeeze(point_cloud)
@@ -80,10 +93,10 @@ def pairwise_distance(grid, point_cloud, type="Gaussian"):
     grid_square = torch.sum(grid ** 2, dim=-1, keepdim=True) # (train_size, 2b * 2b, 1)
     sum_up = grid_square + point_cloud_inner + point_cloud_square_tranpose # (train_size, 2b * 2b, num_points)
 
-    if type == "Gaussian":
+    if ctype == "Gaussian":
         transform = torch.exp(sum_up)
 
-    if type == "Potential":
+    if ctype == "Potential":
         transform = sum_up ** (-1)
 
     transform = torch.sum(transform, dim=-1, keepdim=True)  # (train_size, 2b * 2b, 1) ## 没有算j != i
