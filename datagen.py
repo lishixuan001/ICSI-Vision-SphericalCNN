@@ -153,12 +153,12 @@ def main():
     parser.add_argument("--train-file-path",
                         help="the path of train file",
                         type=str,
-                        default='mnistPC/train.hdf5',
+                        default='../mnistPC/train.hdf5',
                         required=False)
     parser.add_argument("--test-file-path",
                         help="the path of test file",
                         type=str,
-                        default='mnistPC/test.hdf5',
+                        default='../mnistPC/test.hdf5',
                         required=False)
     parser.add_argument("--bandwidth",
                         help="the bandwidth of the S2 signal",
