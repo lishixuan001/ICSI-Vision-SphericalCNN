@@ -56,3 +56,10 @@ def sdt(x, grid = 20, sigma = 1):
             core_dis = np.sum( (np.squeeze(x[batch_id, ...]) -  np.repeat(var, num_point, axis = 0) ) **2, axis =1) *1.0 /(2*sigma)
             out[batch_id, :, id_,0] = np.exp( -core_dis)
     return out
+
+def main():
+    point_cloud = torch.arange(4).reshape((1, 2, 2))
+    print(pairwise_distance(point_cloud))
+
+if __name__ == '__main__':
+    main()
