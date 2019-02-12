@@ -227,8 +227,10 @@ def main():
     trainset = DataLoader(dataset=MNIST(tensor_data_train, tensor_label_train),
                           batch_size=args.batchsize,
                           shuffle=True)
-    for ts in trainset:
-        print(ts)
+
+    with open("output.txt", "w+") as output_file:
+        for ts in trainset:
+            output_file.write("{}\n".format(ts))
     # question: how to transform test set? How should the radius set, and the
 
 
