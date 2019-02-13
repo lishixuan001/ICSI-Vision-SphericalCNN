@@ -100,7 +100,6 @@ def pairwise_distance(grid, point_cloud, logger, ctype="Gaussian"):
     dim1 = grid.shape[1] # dim1 = 2b * 2b
 
     point_cloud_transpose = torch.t(point_cloud)  # (dim0, 3) ==> (3, dim0)
-    point_cloud_transpose = torch.t(point_cloud)  # (dim0, 3) ==> (3, dim0)
 
     """point_cloud_transpose_square_sum will first do element-wise square operation,
     and then sum up the (3, dim0) function along the 0-axis,
