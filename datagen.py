@@ -48,7 +48,7 @@ def main():
     f_train = h5py.File(args.train_file_path)  # the point is ranged from -1 to 1
     f_test = h5py.File(args.test_file_path)
     if args.demo:
-        train_size = 2 # num of images to input
+        train_size = 1 # num of images to input
     else:
         train_size = f_train['data'].shape[0]
     num_points = f_train['data'].shape[1]
@@ -87,7 +87,7 @@ def main():
     tensor_data_train = pairwise_distance(grid=grid,
                                           point_cloud=train_torch_dataset,
                                           logger=logger,
-                                          ctype="Gaussian")
+                                          ctype=UtilityTypes.Gaussian)
 
     # TODO: Check reshape before/after details
     # (train_size * num_points, 2b * 2b) -> (train_size, num_points, 2b * 2b)

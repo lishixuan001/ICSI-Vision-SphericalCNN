@@ -100,6 +100,7 @@ def pairwise_distance(grid, point_cloud, logger, ctype="Gaussian"):
     dim1 = grid.shape[1] # dim1 = 2b * 2b
 
     point_cloud_transpose = torch.t(point_cloud)  # (dim0, 3) ==> (3, dim0)
+    point_cloud_transpose = torch.t(point_cloud)  # (dim0, 3) ==> (3, dim0)
 
     """point_cloud_transpose_square_sum will first do element-wise square operation,
     and then sum up the (3, dim0) function along the 0-axis,
@@ -114,7 +115,7 @@ def pairwise_distance(grid, point_cloud, logger, ctype="Gaussian"):
         and sphere point origin in i-th point
         """
         mask_point = torch.ones((dim1, dim0), dtype=point_cloud.dtype)
-        mask_point[:, i] = 0
+        mask_point[:, i] = 0 # TODO: Check Mask_Point
         """for each point in range(dim0), get a sphere around it, each_point_grid [2b * 2b, 3]
         """
         each_point_grid = grid[i]  # (dim1, 3)
@@ -127,15 +128,15 @@ def pairwise_distance(grid, point_cloud, logger, ctype="Gaussian"):
         assert ctype in UtilityTypes
         # signal_matrix ==> The matrix of elements to be summed for S2_Distance_Map (<<Spherical CNN>> 5.4.2 -> line5)
         if ctype == UtilityTypes.Gaussian:
-            signal_matrix = torch.mul(torch.exp(dist_sum_up), -1) # FIXME: Check Result
+            signal_matrix = torch.exp(torch.mul(dist_sum_up, -1)) # FIXME: Check Result
         else:
             # ctype == UtilityTypes.Potential
             signal_matrix = torch.pow(dist_sum_up, -1)
         masked_signal_matrix = torch.mul(signal_matrix, mask_point) # (dim1, dim0) => 2b*2b distance map for every point (n)
         summed_masked_signal_matrix = torch.sum(masked_signal_matrix, dim=(-1,))  # (dim1)
-        assert summed_masked_signal_matrix.size == torch.Size([dim1]) # TODO: Mind The Correctness
+        assert summed_masked_signal_matrix.size() == torch.Size([dim1]) # TODO: Mind The Correctness
 
-        result[i] = summed_masked_signal_matrix.size
+        result[i] = summed_masked_signal_matrix
 
         logger.info(i)
 

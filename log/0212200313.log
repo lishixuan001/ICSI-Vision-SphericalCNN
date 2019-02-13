@@ -1,0 +1,6 @@
+2019-02-12 20:03:13 INFO     call with args: 
+Namespace(bandwidth=30, batchsize=1, demo=True, output_file='s2_mnist.gz', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5')
+2019-02-12 20:03:13 INFO     getting MNIST data
+2019-02-12 20:03:13 INFO     finish loading MNIST data and basic configuration
+2019-02-12 20:03:13 WARNING  haven't loaded test data set
+2019-02-12 20:03:13 WARNING  also, haven't split the validation set
