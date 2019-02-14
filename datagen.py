@@ -43,7 +43,7 @@ def main():
     parser.add_argument("--output-prefix",
                         help="file for saving the data output (.gz file)",
                         type=str,
-                        default="mnistPC",
+                        default="../mnistPC",
                         required=False)
     args = parser.parse_args()
     logger.info("call with args: \n{}".format(args))
