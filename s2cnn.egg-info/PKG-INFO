@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: s2cnn
+Version: 1.0.0
+Summary: SO(3) equivariant CNNs for PyTorch.
+Home-page: https://github.com/AMLab-Amsterdam/s2cnn
+Author: Mario Geiger, Taco Cohen, Jonas Koehler
+Author-email: UNKNOWN
+License: MIT
+Description: UNKNOWN
+Keywords: so3 equivariant cnn pytorch
+Platform: UNKNOWN
