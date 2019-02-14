@@ -13,7 +13,7 @@ the same distance array comes from the Driscoll-Heayley algorithm:
 theta, phi = S2.meshgrid(b=b, grid_type="Driscoll-Heayley")
 ```
 where, the output of theta and phi is shown as follows:
-```markdown
+```
 [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
@@ -41,7 +41,7 @@ where, the output of theta and phi is shown as follows:
 ```
 theta share same value along the row.
 As for phi:
-```markdown
+```
 [0.         0.10471976 0.20943951 0.31415927 0.41887902 0.52359878
  0.62831853 0.73303829 0.83775804 0.9424778  1.04719755 1.15191731
  1.25663706 1.36135682 1.46607657 1.57079633 1.67551608 1.78023584
@@ -67,15 +67,14 @@ As for phi:
 phi share the same value along column.
 
 Function which project from S2 space to R3 space is: (assume the sphere origin at (0, 0, 0))
-$$
-\begin{array}
-x_ = radius * torch.sin(theta) * torch.cos(phi) \\
-y_ = radius * torch.sin(theta) * torch.sin(phi) \\
-z_ = radius * torch.cos(theta) \\
-\end{array}
-$$
 
-Then, for x_ and y_, the first row is same for each grid in (2b * 2b) grids, since the value of theta is always 0,
+![img](http://latex.codecogs.com/svg.latex?x%3Dradius%2Atorch.sin%28%5Ctheta%29%2Atorch.cos%28%5Cphi%29)
+
+![img](http://latex.codecogs.com/svg.latex?y%3Dradius%2Atorch.sin%28%5Ctheta%29%2Atorch.sin%28%5Cphi%29)
+
+![img](http://latex.codecogs.com/svg.latex?z%3Dradius%2Atorch.cos%28theta%29)
+
+Then, for x and y, the first row is same for each grid in (2b * 2b) grids, since the value of theta is always 0,
 and sin(0) = 0
 
 As for z_, since the cos(0)=1, the first row of each grid is always 1
@@ -85,19 +84,19 @@ they should remain the same value.
 
 ### explanation on training batch
 Firstly, I thought each image (which contains 512 points), should be the input to the network.
- However, Rudra tells me that we should shuffle the points, and in each batch (i.e. batch size 8),
- will get random points from different image (i.e. one from "2", another from "4")
+ However, Rudra agrees that we should shuffle the points across image, and in each batch (i.e. batch size 8),
+ will get random points from different images (i.e. one from "2", another from "4")
  
  Explanation on it should be: the kernel size (2b * 2b), shared across whole points. It doesn't matter which label it is
  
  Also, the channel of input feature should be 1
  Therefore, I do some change on the shape of the input tensor:
  > datagen.py line 110: 
- 
  ```python
-reshape (train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) --> (train_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+reshape (train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) -> (train_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
 ```
+
  > datagen.py line 140
  ```python
-reshape (test_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) --> (test_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+reshape (test_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) -> (test_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
 ```
