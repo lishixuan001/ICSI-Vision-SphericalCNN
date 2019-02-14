@@ -77,7 +77,7 @@ Function which project from S2 space to R3 space is: (assume the sphere origin a
 Then, for x and y, the first row is same for each grid in (2b * 2b) grids, since the value of theta is always 0,
 and sin(0) = 0
 
-As for z_, since the cos(0)=1, the first row of each grid is always 1
+As for z, since the cos(0)=1, the first row of each grid is always 1
 
 So basically, the first 2b points share the same (x, y, z), and therefore when calculating the distance with other points,
 they should remain the same value.
