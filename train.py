@@ -114,7 +114,12 @@ def main():
     with gzip.open(os.path.join(args.input_prefix, 'train_mnist.gz'), 'rb') as f:
         test_dataset = pickle.load(f)
 
-    # TODO normalize dataset
+    min_data = train_dataset.points.min()
+    max_data = train_dataset.points.max()
+
+    train_dataset.points = (train_dataset.points - min_data) / (max_data - min_data)
+    test_dataset.points = (test_dataset.points - min_data) / (max_data - min_data)
+
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
                                                        batch_size=args.batchsize,
                                                        valid_size=args.validsize)
@@ -136,11 +141,12 @@ def main():
         lr=args.learning_rate)
 
     for epoch in range(args.num_epochs):
+        i = 0
         for tl in train_loader:
             images = tl['data']
             labels = tl['label']
 
-            images = images.to(DEVICE)
+            images = images.to(DEVICE).float()
             labels = labels.to(DEVICE)
 
             optimizer.zero_grad()
@@ -152,7 +158,8 @@ def main():
 
             print('\rEpoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}'.format(
                 epoch + 1, args.num_epochs, i + 1, len(train_dataset) // args.batchsize,
-                loss.item()))
+                loss.item()), end="")
+            i = i + 1
         correct = 0
         total = 0
         for images, labels in valid_loader:
