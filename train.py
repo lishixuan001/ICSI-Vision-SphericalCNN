@@ -92,7 +92,7 @@ def main():
     parser.add_argument("--input-prefix",
                         help="file for saving the data (.gz file)",
                         type=str,
-                        default="mnistPC",
+                        default="../mnistPC",
                         required=False)
     parser.add_argument("--num-epochs",
                         help="number of epochs",
