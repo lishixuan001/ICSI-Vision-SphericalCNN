@@ -5,17 +5,13 @@ from s2cnn import so3_integrate
 from s2cnn import so3_near_identity_grid
 from s2cnn import s2_near_identity_grid
 import torch.nn.functional as F
-import torch
-import torch.utils.data as data_utils
 import gzip
 import pickle
 import os
-import numpy as np
 import argparse
 from helper_methods import *
 from logger import *
 from torch.utils.data import DataLoader
-
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -53,7 +49,6 @@ class S2ConvNet(nn.Module):
         self.out_layer = nn.Linear(f2, f_output)
 
     def forward(self, x):
-
         x = self.conv1(x)
         x = F.relu(x)
         x = self.conv2(x)
@@ -82,7 +77,7 @@ def main():
     parser.add_argument("--validsize",
                         help="percentage that training set split into validation set",
                         type=float,
-                        default=0.1,
+                        default=0.5,
                         required=False)
     parser.add_argument("--demo",
                         help="if demo is true, then only load 10 image",
@@ -99,7 +94,7 @@ def main():
                         type=str,
                         default="mnistPC",
                         required=False)
-    parser.add_argument("--num-epoch",
+    parser.add_argument("--num-epochs",
                         help="number of epochs",
                         type=int,
                         default=20,
@@ -112,20 +107,21 @@ def main():
     args = parser.parse_args()
     logger.info("call with args: \n{}".format(args))
     logger.info("getting MNIST data")
-    """load dataset and generate dataloader"""
 
+    """load dataset and generate dataloader"""
     with gzip.open(os.path.join(args.input_prefix, 'train_mnist.gz'), 'rb') as f:
         train_dataset = pickle.load(f)
     with gzip.open(os.path.join(args.input_prefix, 'train_mnist.gz'), 'rb') as f:
         test_dataset = pickle.load(f)
 
+    # TODO normalize dataset
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
-                                               batch_size=args.batchsize,
-                                               valid_size=args.validsize)
+                                                       batch_size=args.batchsize,
+                                                       valid_size=args.validsize)
 
     test_loader = DataLoader(dataset=test_dataset,
-                         batch_size=args.batchsize,
-                         shuffle=True)
+                             batch_size=args.batchsize,
+                             shuffle=True)
 
     classifier = S2ConvNet()
     classifier.to(DEVICE)
@@ -140,8 +136,9 @@ def main():
         lr=args.learning_rate)
 
     for epoch in range(args.num_epochs):
-        for i, (images, labels) in enumerate(train_loader):
-            classifier.train()
+        for tl in train_loader:
+            images = tl['data']
+            labels = tl['label']
 
             images = images.to(DEVICE)
             labels = labels.to(DEVICE)

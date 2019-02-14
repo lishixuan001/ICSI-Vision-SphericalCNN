@@ -5,7 +5,6 @@ import pickle
 import os
 from logger import *
 from helper_methods import *
-from torch.utils.data import DataLoader
 
 
 def main():
@@ -30,11 +29,6 @@ def main():
                         help="the batch size of the dataloader",
                         type=int,
                         default=1,
-                        required=False)
-    parser.add_argument("--validsize",
-                        help="percentage that training set split into validation set",
-                        type=float,
-                        default=0.1,
                         required=False)
     parser.add_argument("--demo",
                         help="if demo is true, then only load 10 image",
@@ -111,8 +105,9 @@ def main():
                                           ctype=utility_type)
 
     # TODO: Check reshape before/after details
-    # (train_size * num_points, 2b * 2b) -> (train_size, num_points, 2b * 2b)
-    tensor_data_train = tensor_data_train.reshape(train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth)
+    # (train_size * num_points, 2b * 2b) -> (train_size * num_points, 1, 2b * 2b)
+    # !important change: should give points from different images
+    tensor_data_train = tensor_data_train.reshape(train_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
     logger.info("finish!")
 
     """transform test data"""
@@ -135,18 +130,19 @@ def main():
                                     grid_type="Driscoll-Healy")
 
     logger.info("start calculate pairwise distance for test set")
-    # pairwise_distance returns tensor (test_size * num_points, 2b * 2b)
+    # pairwise_distance returns tensor (test_size * num_points, 1, 2b * 2b)
     tensor_data_test = pairwise_distance(grid=grid_test,
                                          point_cloud=test_torch_dataset,
                                          ctype=utility_type)
     logger.info("finish!")
 
-    # (test_size * num_points, 2b * 2b) -> (test_size, num_points, 2b * 2b)
-    tensor_data_test = tensor_data_test.reshape(test_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth)
+    # (test_size * num_points, 2b * 2b) -> (test_size * num_points, 1, 2b * 2b)
+    tensor_data_test = tensor_data_test.reshape(test_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
 
     """load label"""
-    tensor_label_train = f_train['labels'][()][0:train_size]
-    tensor_label_test = f_test['labels'][()][0:test_size]
+    tensor_label_train = f_train['labels'][()][0:train_size].repeat(num_points)
+    tensor_label_test = f_test['labels'][()][0:test_size].repeat(num_points)
+    assert tensor_label_train.shape[0] == tensor_data_train.shape[0]
 
     """generate train set & test set"""
 

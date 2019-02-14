@@ -3,7 +3,6 @@ import lie_learn.spaces.S2 as S2
 from torch.utils.data import Dataset, DataLoader
 import torch
 import sys
-import time
 from scipy.spatial import distance as spdist
 from enum import Enum
 from torch.utils.data.sampler import SubsetRandomSampler
@@ -186,7 +185,8 @@ def progress(count, total):
     percents = round(100.0 * count / float(total), 1)
     bar = '=' * filled_len + '-' * (bar_len - filled_len)
 
-    sys.stdout.write('[%s] %s%s \r' % (bar, percents, '%'))
+    print('\r[%s] %s%s' % (bar, percents, '%'), end='')
+    # sys.stdout.write('[%s] %s%s\r' % (bar, percents, '%'))
     sys.stdout.flush()
 
 

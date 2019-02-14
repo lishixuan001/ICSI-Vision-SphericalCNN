@@ -82,3 +82,22 @@ As for z_, since the cos(0)=1, the first row of each grid is always 1
 
 So basically, the first 2b points share the same (x, y, z), and therefore when calculating the distance with other points,
 they should remain the same value.
+
+### explanation on training batch
+Firstly, I thought each image (which contains 512 points), should be the input to the network.
+ However, Rudra tells me that we should shuffle the points, and in each batch (i.e. batch size 8),
+ will get random points from different image (i.e. one from "2", another from "4")
+ 
+ Explanation on it should be: the kernel size (2b * 2b), shared across whole points. It doesn't matter which label it is
+ 
+ Also, the channel of input feature should be 1
+ Therefore, I do some change on the shape of the input tensor:
+ > datagen.py line 110: 
+ 
+ ```python
+reshape (train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) --> (train_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+```
+ > datagen.py line 140
+ ```python
+reshape (test_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) --> (test_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+```
