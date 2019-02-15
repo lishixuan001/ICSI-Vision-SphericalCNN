@@ -161,7 +161,7 @@ def split_train_and_valid(trainset, batch_size, valid_size=0.1):
     err_msg = "[!] valid_size should range in (0, 1)"
     assert ((valid_size >= 0) and (valid_size <= 1)), err_msg
 
-    num_train = len(trainset)
+    num_train = len(trainset)  # (train_size, 512, 2b, 2b)
     indices = list(range(num_train))
     split = int(np.floor(valid_size * num_train))
     err_msg = "[!] train set is too small for split"

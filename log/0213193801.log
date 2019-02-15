@@ -1,3 +1,0 @@
-2019-02-13 19:38:01 INFO     call with args: 
-Namespace(bandwidth=30, batchsize=1, demo=True, input_prefix='mnistPC', learning_rate=0.005, num_epochs=20, signal_type='Gaussian', validsize=0.5)
-2019-02-13 19:38:01 INFO     getting MNIST data

@@ -1,3 +1,0 @@
-2019-02-12 05:18:52 INFO     call with args: 
-Namespace(bandwidth=30, batchsize=1, demo=True, output_file='s2_mnist.gz', test_file_path='mnistPC/test.hdf5', train_file_path='mnistPC/train.hdf5')
-2019-02-12 05:18:52 INFO     getting MNIST data

@@ -13,28 +13,23 @@ def main():
     parser.add_argument("--train-file-path",
                         help="the path of train file",
                         type=str,
-                        default='./mnistPC/train.hdf5',
+                        default='../mnistPC/train.hdf5',
                         required=False)
     parser.add_argument("--test-file-path",
                         help="the path of test file",
                         type=str,
-                        default='./mnistPC/test.hdf5',
+                        default='../mnistPC/test.hdf5',
                         required=False)
     parser.add_argument("--bandwidth",
                         help="the bandwidth of the S2 signal",
                         type=int,
-                        default=30,
-                        required=False)
-    parser.add_argument("--batchsize",
-                        help="the batch size of the dataloader",
-                        type=int,
-                        default=1,
-                        required=False)
+                        default=10,
+                        required=True)
     parser.add_argument("--demo",
                         help="if demo is true, then only load 10 image",
                         type=bool,
                         default=True,
-                        required=False)
+                        required=True)
     parser.add_argument("--signal-type",
                         help="Gaussian or Potential",
                         type=str,
@@ -52,7 +47,7 @@ def main():
     f_train = h5py.File(args.train_file_path)  # the point is ranged from -1 to 1
     f_test = h5py.File(args.test_file_path)
     if args.demo:
-        train_size = 2
+        train_size = 12
         test_size = 1
     else:
         train_size = f_train['data'].shape[0]
@@ -105,9 +100,9 @@ def main():
                                           ctype=utility_type)
 
     # TODO: Check reshape before/after details
-    # (train_size * num_points, 2b * 2b) -> (train_size * num_points, 1, 2b * 2b)
+    # (train_size * num_points, 2b * 2b) -> (train_size, num_points, 1, 2b, 2b)
     # !important change: should give points from different images
-    tensor_data_train = tensor_data_train.reshape(train_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+    tensor_data_train = tensor_data_train.reshape(train_size, num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)  ###
     logger.info("finish!")
 
     """transform test data"""
@@ -136,13 +131,14 @@ def main():
                                          ctype=utility_type)
     logger.info("finish!")
 
-    # (test_size * num_points, 2b * 2b) -> (test_size * num_points, 1, 2b * 2b)
-    tensor_data_test = tensor_data_test.reshape(test_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+    # (test_size * num_points, 2b * 2b) -> (test_size, num_points, 1, 2b, 2b)
+    tensor_data_test = tensor_data_test.reshape(test_size, num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth) ###
 
     """load label"""
-    tensor_label_train = f_train['labels'][()][0:train_size].repeat(num_points)
-    tensor_label_test = f_test['labels'][()][0:test_size].repeat(num_points)
-    assert tensor_label_train.shape[0] == tensor_data_train.shape[0]
+    # tensor_label_train = f_train['labels'][()][0:train_size].repeat(num_points)
+    # tensor_label_test = f_test['labels'][()][0:test_size].repeat(num_points)
+    tensor_label_train = f_train['labels'][()][0:train_size]
+    tensor_label_test = f_test['labels'][()][0:test_size]
 
     """generate train set & test set"""
 

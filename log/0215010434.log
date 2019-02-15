@@ -1,0 +1,10 @@
+2019-02-15 01:04:34 INFO     call with args: 
+Namespace(bandwidth=10, batchsize=2, demo=True, input_prefix='mnistPC', learning_rate=0.005, num_epochs=20, signal_type='Gaussian', validsize=0.16666666666666666)
+2019-02-15 01:04:34 INFO     getting MNIST data
+2019-02-15 01:04:41 INFO     Epoch [1/20], Iter [1/6] Loss: 2.3035
+2019-02-15 01:04:47 INFO     Epoch [1/20], Iter [2/6] Loss: 2.3031
+2019-02-15 01:04:53 INFO     Epoch [1/20], Iter [3/6] Loss: 2.5812
+2019-02-15 01:04:59 INFO     Epoch [1/20], Iter [4/6] Loss: 2.5283
+2019-02-15 01:05:06 INFO     Epoch [1/20], Iter [5/6] Loss: 2.4354
+2019-02-15 01:05:09 INFO     TEST ACC: 0.0
+2019-02-15 01:05:15 INFO     Epoch [2/20], Iter [1/6] Loss: 1.3485

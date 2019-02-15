@@ -83,20 +83,43 @@ So basically, the first 2b points share the same (x, y, z), and therefore when c
 they should remain the same value.
 
 ### explanation on training batch
-Firstly, I thought each image (which contains 512 points), should be the input to the network.
- However, Rudra agrees that we should shuffle the points across image, and in each batch (i.e. batch size 8),
- will get random points from different images (i.e. one from "2", another from "4")
- 
- Explanation on it should be: the kernel size (2b * 2b), shared across whole points. It doesn't matter which label it is
- 
- Also, the channel of input feature should be 1
- Therefore, I do some change on the shape of the input tensor:
- > datagen.py line 110: 
- ```python
-reshape (train_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) -> (train_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
+The shape of train dataset is:
+```python
+# datagen.py line 105 & 135
+reshape(train_size, num_points, 1, 2 * b, 2 * b)
+```
+When it is loaded into dataloader, batch size comes from the train_size
+ (for a whole train size, should be 60000)
+
+Then, when it is iterate from the dataloader, do the reshape:
+```python
+# train.py line 166
+for tl in train_loader:
+    images = tl['data'].reshape((-1, 1, 2 * b, 2 * b))
+```
+As shown, the data input to the S2CNN should be 
+(batch_size * num_points, 1, 2 * b, 2 * b), so that the channel into 
+to S2CNN is 1 (not num_points), which means, each individual 
+points is put into the S2CNN for forwarding.
+
+Then, after the S2CNN part, it should go into the standard 
+CNN as a whole image (512 points). Do the following transformation:
+```python
+    # train.py line 56
+    def forward(self, x):
+        conv1 = self.conv1(x)
+        relu1 = F.relu(conv1)
+        conv2 = self.conv2(relu1)
+        relu2 = F.relu(conv2) # (B * 512, f2, 2 * b_l2, 2 * b_l2, 2 * b_l2)
+        in_data = relu2[:, :, 0, 0, 0] # -> (B * 512, f2)
+        in_reshape = in_data.reshape(self.batch_size, 1, self.num_points * self.f2)  # -> (B, 1, 512 * f2)
+        conv3 = self.conv3(in_reshape)  # -> (B, 10, L'), L' = 512 * f2 - kernel_size + 1
+        relu3 = F.relu(conv3)
+        bn3 = self.bn3(relu3)
+        bn3_reshape = bn3.reshape((self.batch_size, -1))  # -> (B, 10 * L')
+        output = self.out_layer(bn3_reshape) # -> (B, 10)
+    
+    return output
 ```
 
- > datagen.py line 140
- ```python
-reshape (test_size, num_points, 2 * args.bandwidth, 2 * args.bandwidth) -> (test_size * num_points, 1, 2 * args.bandwidth, 2 * args.bandwidth)
-```
+and then we can feed them into the criterion
