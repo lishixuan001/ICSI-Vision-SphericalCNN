@@ -182,7 +182,7 @@ def main():
             optimizer.step()
 
             logger.info("Epoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}".format(
-                epoch + 1, args.num_epochs, i + 1, len(train_dataset) // args.batchsize,
+                epoch + 1, args.num_epochs, i + 1, len(train_dataset) * args.validsize // args.batchsize,
                 loss.item()
             ))
             # print('\rEpoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}'.format(
