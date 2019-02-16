@@ -1,0 +1,54 @@
+2019-02-16 14:58:09 INFO     call with args: 
+Namespace(bandwidth=20, batchsize=2, input_prefix='../mnistPC', learning_rate=0.005, num_epochs=20, signal_type='Gaussian', validsize=0.16666666666666666)
+2019-02-16 14:58:09 INFO     getting MNIST data
+2019-02-16 14:58:19 INFO     Epoch [1/20], Iter [1/1.0] Loss: 2.2642
+2019-02-16 14:58:19 INFO     Epoch [1/20], Iter [2/1.0] Loss: 64.0979
+2019-02-16 14:58:19 INFO     Epoch [1/20], Iter [3/1.0] Loss: 37.9768
+2019-02-16 14:58:19 INFO     Epoch [1/20], Iter [4/1.0] Loss: 38.6575
+2019-02-16 14:58:19 INFO     Epoch [1/20], Iter [5/1.0] Loss: 1.3653
+2019-02-16 14:58:19 INFO     TEST ACC: 0.0
+2019-02-16 14:58:19 INFO     Epoch [2/20], Iter [1/1.0] Loss: 2.3358
+2019-02-16 14:58:19 INFO     Epoch [2/20], Iter [2/1.0] Loss: 3.4117
+2019-02-16 14:58:19 INFO     Epoch [2/20], Iter [3/1.0] Loss: 3.7126
+2019-02-16 14:58:20 INFO     Epoch [2/20], Iter [4/1.0] Loss: 2.8358
+2019-02-16 14:58:20 INFO     Epoch [2/20], Iter [5/1.0] Loss: 2.0745
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [3/20], Iter [1/1.0] Loss: 1.7337
+2019-02-16 14:58:20 INFO     Epoch [3/20], Iter [2/1.0] Loss: 1.9648
+2019-02-16 14:58:20 INFO     Epoch [3/20], Iter [3/1.0] Loss: 2.2600
+2019-02-16 14:58:20 INFO     Epoch [3/20], Iter [4/1.0] Loss: 3.3571
+2019-02-16 14:58:20 INFO     Epoch [3/20], Iter [5/1.0] Loss: 2.0198
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [4/20], Iter [1/1.0] Loss: 2.2863
+2019-02-16 14:58:20 INFO     Epoch [4/20], Iter [2/1.0] Loss: 1.5689
+2019-02-16 14:58:20 INFO     Epoch [4/20], Iter [3/1.0] Loss: 2.1003
+2019-02-16 14:58:20 INFO     Epoch [4/20], Iter [4/1.0] Loss: 3.3327
+2019-02-16 14:58:20 INFO     Epoch [4/20], Iter [5/1.0] Loss: 2.8204
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [5/20], Iter [1/1.0] Loss: 2.7122
+2019-02-16 14:58:20 INFO     Epoch [5/20], Iter [2/1.0] Loss: 1.4186
+2019-02-16 14:58:20 INFO     Epoch [5/20], Iter [3/1.0] Loss: 1.8152
+2019-02-16 14:58:20 INFO     Epoch [5/20], Iter [4/1.0] Loss: 2.2130
+2019-02-16 14:58:20 INFO     Epoch [5/20], Iter [5/1.0] Loss: 3.0821
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [6/20], Iter [1/1.0] Loss: 2.8143
+2019-02-16 14:58:20 INFO     Epoch [6/20], Iter [2/1.0] Loss: 1.4436
+2019-02-16 14:58:20 INFO     Epoch [6/20], Iter [3/1.0] Loss: 2.1063
+2019-02-16 14:58:20 INFO     Epoch [6/20], Iter [4/1.0] Loss: 1.6187
+2019-02-16 14:58:20 INFO     Epoch [6/20], Iter [5/1.0] Loss: 2.2789
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [7/20], Iter [1/1.0] Loss: 1.8893
+2019-02-16 14:58:20 INFO     Epoch [7/20], Iter [2/1.0] Loss: 2.0612
+2019-02-16 14:58:20 INFO     Epoch [7/20], Iter [3/1.0] Loss: 1.9393
+2019-02-16 14:58:20 INFO     Epoch [7/20], Iter [4/1.0] Loss: 2.3037
+2019-02-16 14:58:20 INFO     Epoch [7/20], Iter [5/1.0] Loss: 1.8696
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [8/20], Iter [1/1.0] Loss: 1.8685
+2019-02-16 14:58:20 INFO     Epoch [8/20], Iter [2/1.0] Loss: 1.7822
+2019-02-16 14:58:20 INFO     Epoch [8/20], Iter [3/1.0] Loss: 2.1283
+2019-02-16 14:58:20 INFO     Epoch [8/20], Iter [4/1.0] Loss: 2.2002
+2019-02-16 14:58:20 INFO     Epoch [8/20], Iter [5/1.0] Loss: 2.1360
+2019-02-16 14:58:20 INFO     TEST ACC: 0.0
+2019-02-16 14:58:20 INFO     Epoch [9/20], Iter [1/1.0] Loss: 1.7827
+2019-02-16 14:58:20 INFO     Epoch [9/20], Iter [2/1.0] Loss: 1.8648
+2019-02-16 14:58:20 INFO     Epoch [9/20], Iter [3/1.0] Loss: 1.9945

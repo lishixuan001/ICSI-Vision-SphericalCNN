@@ -28,8 +28,8 @@ def main():
     parser.add_argument("--demo",
                         help="if demo is true, then only load 10 image",
                         type=bool,
-                        default=True,
-                        required=True)
+                        default=False,
+                        required=False)
     parser.add_argument("--signal-type",
                         help="Gaussian or Potential",
                         type=str,
@@ -40,10 +40,6 @@ def main():
                         type=str,
                         default="../mnistPC",
                         required=False)
-    parser.add_argument("--cuda",
-                        help="CUDA to use, if cpu, enter -1",
-                        type=int,
-                        required=True)
 
     args = parser.parse_args()
     logger.info("call with args: \n{}".format(args))
@@ -66,12 +62,6 @@ def main():
     else:
         raise UtilityError("invalid utility type, should be chosen from 'Gaussian' or 'Potential'.")
     logger.info("finish loading MNIST data and basic configuration")
-
-    """set cuda"""
-    if args.cuda != -1:
-        DEVICE = torch.device("cuda: {}".format(args.cuda))
-    else:
-        DEVICE = torch.device("cpu")
 
     # add [()] can read h5py file as numpy.ndarray
     """load train set"""

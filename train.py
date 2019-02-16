@@ -110,10 +110,6 @@ def main():
                         type=float,
                         default=5e-3,
                         required=False)
-    parser.add_argument("--cuda",
-                        help="cuda number to use, if use cpu, please enter -1",
-                        type=int,
-                        required=True)
     args = parser.parse_args()
     logger.info("call with args: \n{}".format(args))
     logger.info("getting MNIST data")
@@ -128,13 +124,9 @@ def main():
     max_data = train_dataset.points.max()
 
     train_dataset.points = (train_dataset.points - min_data) / (max_data - min_data)
+    logger.info("shape: {}".format(train_dataset.points.shape))
     # test_dataset.points = (test_dataset.points - min_data) / (max_data - min_data)
     
-    if args.cuda != -1:
-        DEVICE=torch.device("cuda: {}".format(args.cuda))
-    else:
-        DEVICE=torch.device("cpu")
-
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
                                                        batch_size=args.batchsize,
                                                        valid_size=args.validsize)
@@ -182,7 +174,7 @@ def main():
             optimizer.step()
 
             logger.info("Epoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}".format(
-                epoch + 1, args.num_epochs, i + 1, len(train_dataset) // args.batchsize,
+                epoch + 1, args.num_epochs, i + 1, len(train_dataset) * (1 - args.validsize) // args.batchsize,
                 loss.item()
             ))
             # print('\rEpoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}'.format(

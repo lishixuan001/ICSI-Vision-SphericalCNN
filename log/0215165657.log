@@ -1,5 +1,0 @@
-2019-02-15 16:56:57 INFO     call with args: 
-Namespace(bandwidth=30, demo=True, output_prefix='../mnistPC', signal_type='Gaussian', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5')
-2019-02-15 16:56:57 INFO     getting MNIST data
-2019-02-15 16:56:57 INFO     finish loading MNIST data and basic configuration
-2019-02-15 16:56:59 INFO     start calculate pairwise distance for train set
