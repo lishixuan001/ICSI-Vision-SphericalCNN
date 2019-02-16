@@ -1,0 +1,11 @@
+2019-02-15 18:08:29 INFO     call with args: 
+Namespace(bandwidth=10, cuda=8, demo=True, output_prefix='../mnistPC', signal_type='Gaussian', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5')
+2019-02-15 18:08:29 INFO     getting MNIST data
+2019-02-15 18:08:29 INFO     finish loading MNIST data and basic configuration
+2019-02-15 18:08:36 INFO     start calculate pairwise distance for train set
+2019-02-15 18:08:59 INFO     finish!
+2019-02-15 18:08:59 INFO     start calculate pairwise distance for test set
+2019-02-15 18:09:00 INFO     finish!
+2019-02-15 18:09:00 INFO     finish loading the data set
+2019-02-15 18:09:00 INFO     start saveing dataset
+2019-02-15 18:09:01 INFO     finish saving dataset

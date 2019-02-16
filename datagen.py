@@ -40,6 +40,11 @@ def main():
                         type=str,
                         default="../mnistPC",
                         required=False)
+    parser.add_argument("--cuda",
+                        help="CUDA to use, if cpu, enter -1",
+                        type=int,
+                        required=True)
+
     args = parser.parse_args()
     logger.info("call with args: \n{}".format(args))
     logger.info("getting MNIST data")
@@ -61,6 +66,12 @@ def main():
     else:
         raise UtilityError("invalid utility type, should be chosen from 'Gaussian' or 'Potential'.")
     logger.info("finish loading MNIST data and basic configuration")
+
+    """set cuda"""
+    if args.cuda != -1:
+        DEVICE = torch.device("cuda: {}".format(args.cuda))
+    else:
+        DEVICE = torch.device("cpu")
 
     # add [()] can read h5py file as numpy.ndarray
     """load train set"""
@@ -86,6 +97,7 @@ def main():
 
     #  (train_size, 512, 3) ==> (train_size * 512, 3)
     train_torch_dataset = train_torch_dataset.reshape((-1, 3))
+    train_torch_dataset = train_torch_dataset.cuda()
 
     # get_projection_grid returns tensor (train_size * num_points, 4 * b * b, 3)
     grid_train = get_projection_grid(b=args.bandwidth,
@@ -117,6 +129,7 @@ def main():
 
     #  (test_size, 512, 3) ==> (test_size * 512, 3)
     test_torch_dataset = test_torch_dataset.reshape((-1, 3))
+    test_torch_dataset = test_torch_dataset.cuda()
 
     # get_projection_grid returns tensor (test_size * num_points, 4 * b * b, 3)
     grid_test = get_projection_grid(b=args.bandwidth,

@@ -56,11 +56,12 @@ def get_projection_grid(b, point_cloud, radius, grid_type="Driscoll-Healy"):
     assert type(point_cloud) == torch.Tensor
     assert len(point_cloud.shape) == 2
     assert point_cloud.shape[-1] == 3
+    # DEVICE = point_cloud.device
 
     # theta in shape (2b, 2b), range [0, pi]; phi range [0, 2 * pi]
     theta, phi = S2.meshgrid(b=b, grid_type=grid_type)
-    theta = torch.from_numpy(theta)
-    phi = torch.from_numpy(phi)
+    theta = torch.from_numpy(theta).cuda()
+    phi = torch.from_numpy(phi).cuda()
 
     x_ = radius * torch.sin(theta) * torch.cos(phi)
     """x will be reshaped to have one dimension of 1, then can broadcast
@@ -99,6 +100,8 @@ def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
     assert type(point_cloud) == torch.Tensor
     assert len(point_cloud.shape) == 2
     assert point_cloud.shape[-1] == 3  # num_dims = 3
+    DEVICE = point_cloud.device
+    grid = grid.cuda()
 
     dim0 = point_cloud.shape[0]  # dim0 = train_size * num_points
     dim1 = grid.shape[1]  # dim1 = 2b * 2b
@@ -112,7 +115,7 @@ def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
     point_cloud_transpose_square_sum = torch.sum(torch.pow(point_cloud_transpose, 2), dim=(0,),
                                                  keepdim=True)  # (1, dim0) ==> x^2 (self)
 
-    result = np.zeros((dim0, dim1))  # initialize the result tensor
+    result = torch.zeros((dim0, dim1), device=DEVICE)  # initialize the result tensor
 
     total = dim0  # add for progress bar
     for i in range(dim0):  # again, dim0 = train_size * num_points
@@ -120,7 +123,7 @@ def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
          (column) to zero, so that when sum up, will not count the distance between the i-th point
         and sphere point origin in i-th point
         """
-        mask_point = torch.ones((dim1, dim0), dtype=point_cloud.dtype)
+        mask_point = torch.ones((dim1, dim0), dtype=point_cloud.dtype).cuda()
         mask_point[:, i] = 0  # TODO: Check Mask_Point
         """for each point in range(dim0), get a sphere around it, each_point_grid [2b * 2b, 3]
         """

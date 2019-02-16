@@ -1,0 +1,3 @@
+2019-02-15 17:51:14 INFO     call with args: 
+Namespace(bandwidth=30, batchsize=16, cuda=8, input_prefix='../mnistPC', learning_rate=0.005, num_epochs=20, signal_type='Gaussian', validsize=0.16666666666666666)
+2019-02-15 17:51:14 INFO     getting MNIST data

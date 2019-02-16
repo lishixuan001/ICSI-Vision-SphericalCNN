@@ -1,0 +1,3 @@
+2019-02-15 17:10:50 INFO     call with args: 
+Namespace(bandwidth=30, cuda=8, demo=True, output_prefix='../mnistPC', signal_type='Gaussian', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5')
+2019-02-15 17:10:50 INFO     getting MNIST data
