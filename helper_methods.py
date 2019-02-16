@@ -21,7 +21,7 @@ class MNIST(Dataset):  # 60000 * 512 * 2
     def __getitem__(self, idx):
         point = self.points[idx]  # (512, 2b, 2b)
         label = self.labels[idx]
-        sample = {'data': point, 'label': label}
+        sample = {'point': point, 'label': label}
         return sample
 
 
