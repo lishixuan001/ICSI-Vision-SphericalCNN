@@ -1,4 +1,0 @@
-2019-02-16 15:15:43 INFO     call with args: 
-Namespace(bandwidth=20, demo=False, output_prefix='../mnistPC', signal_type='Gaussian', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5')
-2019-02-16 15:15:43 INFO     getting MNIST data
-2019-02-16 15:15:43 INFO     finish loading MNIST data and basic configuration
