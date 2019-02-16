@@ -12,12 +12,16 @@ from helper_methods import *
 from logger import *
 from torch.utils.data import DataLoader
 
+# The device assigne to torch.Tensor
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class S2ConvNet(nn.Module):
 
     def __init__(self, para_dict):
+        """
+        :param para_dict: A dictionary containing all pairs of parameters
+        """
         super(S2ConvNet, self).__init__()
 
         self.para_dict = para_dict
@@ -58,6 +62,8 @@ class S2ConvNet(nn.Module):
         relu1 = F.relu(conv1)
         conv2 = self.conv2(relu1)
         relu2 = F.relu(conv2) ###
+        print(relu2)
+        return
         in_data = relu2[:, :, 0, 0, 0]
         in_reshape = in_data.reshape(self.batch_size, 1, self.num_points * self.f2)  # B * C * L
         conv3 = self.conv3(in_reshape)  # (B, 1, L) -> (B, 10, L'), L' = num_points * f2 - kernel_size + 1

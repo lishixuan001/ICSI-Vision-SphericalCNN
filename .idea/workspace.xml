@@ -2,33 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97bb2ed1-8073-43a9-b6c7-8bbfab1de83f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/ICSI-Vision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ICSI-Vision.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/setup_s2_fft/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/cache/setup_s2_fft/index.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/setup_s2_ft/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/cache/setup_s2_ft/index.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/setup_so3_fft/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/cache/setup_so3_fft/index.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/setup_so3_ft/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/cache/setup_so3_ft/index.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datagen.py" beforeDir="false" afterPath="$PROJECT_DIR$/datagen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212051852.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212052045.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212052312.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212052447.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212052621.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200313.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200351.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200420.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200437.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200506.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200514.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200525.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200914.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0212200933.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0213193801.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/0213193859.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logger.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup_s2cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup_s2cnn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,31 +17,35 @@
     <session id="-883960795">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="7" />
+          <entry key="md" value="1" />
+          <entry key="py" value="8" />
           <entry key="txt" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="3" />
-          <entry key="Python" value="7" />
+          <entry key="Python" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="1423" />
+          <entry key="py" value="1756" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="1423" />
+          <entry key="Python" value="1756" />
         </counts>
       </usages-collector>
     </session>
@@ -107,29 +87,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datagen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+            <state relative-caret-position="156">
+              <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/helper_methods.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1040">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="526">
-              <caret line="100" column="45" lean-forward="true" selection-start-line="100" selection-start-column="45" selection-end-line="100" selection-end-column="45" />
+            <state relative-caret-position="483">
+              <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="65" selection-end-column="14" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -138,25 +106,40 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logger.py">
+        <entry file="file://$PROJECT_DIR$/s2cnn/soft/so3_integrate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+            <state relative-caret-position="207">
+              <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/s2cnn/soft/s2_conv.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#28#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="FIRST">
-              <first_editor relative-caret-position="-13">
-                <caret line="103" lean-forward="true" selection-start-line="103" selection-end-line="103" />
-              </first_editor>
-              <second_editor />
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/s2cnn/s2_grid.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="253">
+              <caret line="11" column="50" lean-forward="true" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/helper_methods.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -191,8 +174,8 @@
         <option value="$PROJECT_DIR$/logger.py" />
         <option value="$PROJECT_DIR$/helper_methods.py" />
         <option value="$PROJECT_DIR$/datagen.py" />
-        <option value="$PROJECT_DIR$/train.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/train.py" />
       </list>
     </option>
   </component>
@@ -202,17 +185,19 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="-11" />
     <option name="y" value="-11" />
     <option name="width" value="1842" />
     <option name="height" value="1103" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -224,7 +209,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -267,6 +251,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -296,10 +281,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1233" height="735" extended-state="7" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11018364" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1416309" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -340,64 +325,70 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/anaconda/lib/python3.6/site-packages/torch/utils/data/dataloader.py" />
-    <entry file="file://$PROJECT_DIR$/logger.txt">
+    <entry file="file://$PROJECT_DIR$/logger.txt" />
+    <entry file="file://$PROJECT_DIR$/output.txt" />
+    <entry file="file://$PROJECT_DIR$/logger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" column="30" lean-forward="true" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="75" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="75" />
+        <state relative-caret-position="180">
+          <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/datagen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/helper_methods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1040">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="100" column="45" lean-forward="true" selection-start-line="100" selection-start-column="45" selection-end-line="100" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="156">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="-13">
-            <caret line="103" lean-forward="true" selection-start-line="103" selection-end-line="103" />
+          <first_editor relative-caret-position="2369">
+            <caret line="103" selection-start-line="103" selection-end-line="103" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/s2cnn/soft/so3_integrate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/s2cnn/soft/s2_conv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
+          <folding>
+            <element signature="e#28#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helper_methods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/s2cnn/s2_grid.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="50" lean-forward="true" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="65" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
