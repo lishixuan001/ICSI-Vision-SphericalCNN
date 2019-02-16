@@ -28,8 +28,8 @@ def main():
     parser.add_argument("--demo",
                         help="if demo is true, then only load 10 image",
                         type=bool,
-                        default=True,
-                        required=True)
+                        default=False,
+                        required=False)
     parser.add_argument("--signal-type",
                         help="Gaussian or Potential",
                         type=str,
@@ -40,6 +40,7 @@ def main():
                         type=str,
                         default="../mnistPC",
                         required=False)
+
     args = parser.parse_args()
     logger.info("call with args: \n{}".format(args))
     logger.info("getting MNIST data")
@@ -86,6 +87,7 @@ def main():
 
     #  (train_size, 512, 3) ==> (train_size * 512, 3)
     train_torch_dataset = train_torch_dataset.reshape((-1, 3))
+    train_torch_dataset = train_torch_dataset.cuda()
 
     # get_projection_grid returns tensor (train_size * num_points, 4 * b * b, 3)
     grid_train = get_projection_grid(b=args.bandwidth,
@@ -117,6 +119,7 @@ def main():
 
     #  (test_size, 512, 3) ==> (test_size * 512, 3)
     test_torch_dataset = test_torch_dataset.reshape((-1, 3))
+    test_torch_dataset = test_torch_dataset.cuda()
 
     # get_projection_grid returns tensor (test_size * num_points, 4 * b * b, 3)
     grid_test = get_projection_grid(b=args.bandwidth,

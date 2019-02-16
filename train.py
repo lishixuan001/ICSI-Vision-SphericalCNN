@@ -11,8 +11,8 @@ import argparse
 from helper_methods import *
 from logger import *
 from torch.utils.data import DataLoader
-
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+import pdb
+# DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class S2ConvNet(nn.Module):
@@ -83,7 +83,7 @@ def main():
     parser.add_argument("--batchsize",
                         help="the batch size of the dataloader",
                         type=int,
-                        default=2, ###
+                        default=8, ###
                         required=True)
     parser.add_argument("--validsize",
                         help="percentage that training set split into validation set",
@@ -117,22 +117,23 @@ def main():
     """load dataset and generate dataloader"""
     with gzip.open(os.path.join(args.input_prefix, 'train_mnist.gz'), 'rb') as f:
         train_dataset = pickle.load(f)
-    with gzip.open(os.path.join(args.input_prefix, 'test_mnist.gz'), 'rb') as f:
-        test_dataset = pickle.load(f)
+    # with gzip.open(os.path.join(args.input_prefix, 'test_mnist.gz'), 'rb') as f:
+    #     test_dataset = pickle.load(f)
 
     min_data = train_dataset.points.min()
     max_data = train_dataset.points.max()
 
     train_dataset.points = (train_dataset.points - min_data) / (max_data - min_data)
-    test_dataset.points = (test_dataset.points - min_data) / (max_data - min_data)
-
+    logger.info("shape: {}".format(train_dataset.points.shape))
+    # test_dataset.points = (test_dataset.points - min_data) / (max_data - min_data)
+    
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
                                                        batch_size=args.batchsize,
                                                        valid_size=args.validsize)
 
-    test_loader = DataLoader(dataset=test_dataset,
-                             batch_size=args.batchsize,
-                             shuffle=False)
+#    test_loader = DataLoader(dataset=test_dataset,
+#                             batch_size=args.batchsize,
+#                             shuffle=False)
 
     parameter_dict = {
         'batchsize': args.batchsize,
@@ -141,16 +142,16 @@ def main():
         'f2': 4,
         'f_output': 10,  # should be the number of classes
         'b_in': args.bandwidth,
-        'b_l1': 8,
-        'b_l2': 4
+        'b_l1': 4,
+        'b_l2': 2
     }
     classifier = S2ConvNet(parameter_dict)
-    classifier.to(DEVICE)
+    classifier.cuda()
 
     print("#params", sum(x.numel() for x in classifier.parameters()))
 
     criterion = nn.CrossEntropyLoss()
-    criterion = criterion.to(DEVICE)
+    criterion = criterion.cuda()
 
     optimizer = torch.optim.Adam(
         classifier.parameters(),
@@ -162,8 +163,8 @@ def main():
             images = tl['data'].reshape((-1, 1, 2 * args.bandwidth, 2 * args.bandwidth)) # (b * 512, 1, 2b, 2b)
             labels = tl['label']  # shape [1]
 
-            images = images.to(DEVICE).float()
-            labels = labels.to(DEVICE)
+            images = images.cuda().float()
+            labels = labels.cuda()
 
             optimizer.zero_grad()
             outputs = classifier(images)
@@ -173,7 +174,7 @@ def main():
             optimizer.step()
 
             logger.info("Epoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}".format(
-                epoch + 1, args.num_epochs, i + 1, len(train_dataset) // args.batchsize,
+                epoch + 1, args.num_epochs, i + 1, len(train_dataset) * (1 - args.validsize) // args.batchsize,
                 loss.item()
             ))
             # print('\rEpoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}'.format(
@@ -188,8 +189,8 @@ def main():
             classifier.eval()
 
             with torch.no_grad():
-                images = images.to(DEVICE).float()
-                labels = labels.to(DEVICE)
+                images = images.cuda().float()
+                labels = labels.cuda()
 
                 outputs = classifier(images)
                 _, predicted = torch.max(outputs, 1)
