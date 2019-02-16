@@ -123,3 +123,4 @@ CNN as a whole image (512 points). Do the following transformation:
 ```
 
 and then we can feed them into the criterion
+
