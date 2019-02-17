@@ -12,14 +12,14 @@ class MNIST(Dataset):  # 60000 * 512 * 2
     """2D point dataset for MNIST"""
 
     def __init__(self, tensor_train, tensor_label):
-        self.points = tensor_train  # (60000, 512, 2b, 2b)
+        self.points = tensor_train  # (60000, 512, 3)
         self.labels = tensor_label  # (60000, )
 
     def __len__(self):
         return self.points.shape[0]
 
     def __getitem__(self, idx):
-        point = self.points[idx]  # (512, 2b, 2b)
+        point = self.points[idx]  # (512, 3)
         label = self.labels[idx]
         sample = {'point': point, 'label': label}
         return sample
@@ -201,7 +201,7 @@ def translation(images, bandwidth, radius, utility_type):
     return data_train
 
 
-def split_train_and_valid(trainset, batch_size, valid_size=0.1):
+def split_train_and_valid(trainset, labelset, batch_size, valid_size=0.1):
     """
     utility function for loading and returning train and valid multi-process iterators
     :param trainset: train set [train_size, num_points, 3]
@@ -226,8 +226,8 @@ def split_train_and_valid(trainset, batch_size, valid_size=0.1):
     train_sampler = SubsetRandomSampler(train_idx)
     valid_sampler = SubsetRandomSampler(valid_idx)
 
-    train_loader = DataLoader(trainset, batch_size=batch_size, sampler=train_sampler)
-    valid_loader = DataLoader(trainset, batch_size=batch_size, sampler=valid_sampler)
+    train_loader = DataLoader(MNIST(trainset, labelset), batch_size=batch_size, sampler=train_sampler)
+    valid_loader = DataLoader(MNIST(trainset, labelset), batch_size=batch_size, sampler=valid_sampler)
     return train_loader, valid_loader
 
 

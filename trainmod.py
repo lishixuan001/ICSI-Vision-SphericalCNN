@@ -157,6 +157,8 @@ def main():
     train_dataset = f_train['data'][()][0:train_size]  # [train_size, 512, 2]
     train_dataset = torch.from_numpy(train_dataset)  # convert from numpy.ndarray to torch.Tensor
 
+    tensor_label_train = f_train['labels'][()][0:train_size]
+
     # test_np_dataset = f_test['data'][()][0:test_size]
     # test_torch_dataset = torch.from_numpy(test_np_dataset)  # convert from numpy.ndarray to torch.Tensor
 
@@ -177,6 +179,7 @@ def main():
     logger.info("start initialize the dataloader, and network")
     # train_loader [batch, 512, 3], same as valid_loader
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
+                                                       labelset=tensor_label_train,
                                                        batch_size=args.batchsize,
                                                        valid_size=args.validsize)
     parameter_dict = {
@@ -208,7 +211,7 @@ def main():
     for epoch in range(args.num_epochs):
         i = 0
         for tl in train_loader:
-            images = tl['data'] # (b, 512, 3)
+            images = tl['point'] # (b, 512, 3)
             labels = tl['label']  # shape [1]
             """hold translation from [B, 512, 3] -> [B * 512, 1, 2b, 2b]"""
             images = translation(
@@ -238,7 +241,7 @@ def main():
         correct = 0
         total = 0
         for vl in valid_loader:
-            images = vl['data'].reshape((-1, 1, 2 * args.bandwidth, 2 * args.bandwidth))
+            images = vl['point']
             labels = vl['label']
             classifier.eval()
 
