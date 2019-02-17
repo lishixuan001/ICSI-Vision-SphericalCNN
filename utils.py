@@ -110,6 +110,7 @@ def pairwise_distance(grid, images, ctype="Gaussian"):
     result = torch.zeros((batch_size, num_points, dim1)).cuda()  # initialize the result tensor
 
     total = batch_size * num_points  # add for progress bar
+    i = 0
     for each in range(batch_size):
         """basic distance is calculated in this way: (x - y)^2 = x ^ 2 - 2 * x * y + y ^ 2
         """
@@ -166,6 +167,7 @@ def pairwise_distance(grid, images, ctype="Gaussian"):
             image_result[point] = summed_masked_signal_matrix
 
             progress(i, total)
+            i = i + 1
 
         image_min = image_result.min()
         image_max = image_result.max()

@@ -208,7 +208,7 @@ def main():
     for epoch in range(args.num_epochs):
         i = 0
         for tl in train_loader:
-            images = tl['data'].reshape((-1, 1, 2 * args.bandwidth, 2 * args.bandwidth)) # (b, 512, 3)
+            images = tl['data'] # (b, 512, 3)
             labels = tl['label']  # shape [1]
             """hold translation from [B, 512, 3] -> [B * 512, 1, 2b, 2b]"""
             images = translation(
