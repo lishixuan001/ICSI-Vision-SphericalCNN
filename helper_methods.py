@@ -100,7 +100,6 @@ def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
     assert type(point_cloud) == torch.Tensor
     assert len(point_cloud.shape) == 2
     assert point_cloud.shape[-1] == 3  # num_dims = 3
-    DEVICE = point_cloud.device
     grid = grid.cuda()
 
     dim0 = point_cloud.shape[0]  # dim0 = train_size * num_points
@@ -115,7 +114,7 @@ def pairwise_distance(grid, point_cloud, ctype="Gaussian"):
     point_cloud_transpose_square_sum = torch.sum(torch.pow(point_cloud_transpose, 2), dim=(0,),
                                                  keepdim=True)  # (1, dim0) ==> x^2 (self)
 
-    result = torch.zeros((dim0, dim1), device=DEVICE)  # initialize the result tensor
+    result = torch.zeros((dim0, dim1)).cuda()  # initialize the result tensor
 
     total = dim0  # add for progress bar
     for i in range(dim0):  # again, dim0 = train_size * num_points
