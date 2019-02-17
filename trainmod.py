@@ -152,6 +152,7 @@ def main():
 
     ####################################################################################################################
     """load train and test set, and calculate radius"""
+    logger.info("start loading train and test set")
     # add [()] can read h5py file as numpy.ndarray
     train_dataset = f_train['data'][()][0:train_size]  # [train_size, 512, 2]
     train_dataset = torch.from_numpy(train_dataset)  # convert from numpy.ndarray to torch.Tensor
@@ -169,8 +170,11 @@ def main():
         # (train_size, num_points, 3) -> z-dimension additionally padded by 0 -> (x, y, 0)
         zero_padding = torch.zeros((train_size, num_points, 1), dtype=train_dataset.dtype)
         train_dataset = torch.cat((train_dataset, zero_padding), -1) # -> [train_size, 512, 3]
+    logger.info("finish loading train dataset")
+
     ####################################################################################################################
     """data loader and net loader"""
+    logger.info("start initialize the dataloader, and network")
     # train_loader [batch, 512, 3], same as valid_loader
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
                                                        batch_size=args.batchsize,
@@ -196,9 +200,11 @@ def main():
     optimizer = torch.optim.Adam(
         classifier.parameters(),
         lr=args.learning_rate)
+    logger.info("finish loading the network")
 
     ####################################################################################################################
     """start iteration"""
+    logger.info("start training")
     for epoch in range(args.num_epochs):
         i = 0
         for tl in train_loader:
