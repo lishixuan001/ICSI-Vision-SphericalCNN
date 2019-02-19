@@ -8,7 +8,7 @@ import h5py
 import argparse
 from utils import *
 from logger import *
-
+from tensorboardX import SummaryWriter
 # DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
@@ -178,6 +178,7 @@ def main():
     """data loader and net loader"""
     logger.info("start initialize the dataloader, and network")
     # train_loader [batch, 512, 3], same as valid_loader
+    writer = SummaryWriter()
     train_loader, valid_loader = split_train_and_valid(trainset=train_dataset,
                                                        labelset=tensor_label_train,
                                                        batch_size=args.batchsize,
@@ -237,12 +238,20 @@ def main():
             ))
 
             i = i + 1
+            writer.add_scalar("loss", loss.item(), i)            
 
         correct = 0
         total = 0
         for vl in valid_loader:
             images = vl['point']
             labels = vl['label']
+            images = translation(
+                images = images,
+                bandwidth = args.bandwidth,
+                radius = radius,
+                utility_type = utility_type
+            )
+
             classifier.eval()
 
             with torch.no_grad():
@@ -254,6 +263,10 @@ def main():
                 total += labels.size(0)
                 correct += (predicted == labels).long().sum().item()
         logger.info("TEST ACC: {0}".format(100 * correct / total))
+        writer.add_scalar("eval loss", 100 * correct / total, epoch)
+
+    writer.export_scalars_to_json("./all_scalars.json")
+    writer.close()
 
 
 if __name__ == '__main__':
