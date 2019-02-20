@@ -1,0 +1,11 @@
+2019-02-19 16:22:39 INFO     call with args: 
+Namespace(bandwidth=20, batchsize=16, demo=False, learning_rate=0.005, num_epochs=20, output_prefix='../mnistPC', signal_type='Gaussian', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5', validsize=0.16666666666666666)
+2019-02-19 16:22:39 INFO     getting MNIST data and basic configuration
+2019-02-19 16:22:39 INFO     finish loading MNIST data and basic configuration
+2019-02-19 16:22:39 INFO     start loading train and test set
+2019-02-19 16:23:09 INFO     finish loading train dataset
+2019-02-19 16:23:09 INFO     start initialize the dataloader, and network
+2019-02-19 16:23:16 INFO     finish loading the network
+2019-02-19 16:23:16 INFO     start training
+2019-02-19 16:23:32 INFO     Epoch [1/20], Iter [1/3125.0] Loss: 2.3548
+2019-02-19 16:23:45 INFO     Epoch [1/20], Iter [2/3125.0] Loss: 32.1176

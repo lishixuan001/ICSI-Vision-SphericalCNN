@@ -6,6 +6,7 @@ import sys
 from scipy.spatial import distance as spdist
 from enum import Enum
 from torch.utils.data.sampler import SubsetRandomSampler
+import time
 
 
 class MNIST(Dataset):  # 60000 * 512 * 2
@@ -25,6 +26,16 @@ class MNIST(Dataset):  # 60000 * 512 * 2
         return sample
 
 
+def timeit(method):
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        print('{}: {} sec'.format(method.__name__, te-ts))
+        return result
+    return timed
+
+
 def get_radius(point_cloud):
     """
     calculate the minimal distance of the given point cloud
@@ -40,6 +51,7 @@ def get_radius(point_cloud):
     return min_distance / 2.0
 
 
+@timeit
 def get_projection_grid(b, images, radius, grid_type="Driscoll-Healy"):
     """
     returns the spherical grid in euclidean coordinates, which, to be specify,
@@ -93,6 +105,7 @@ def get_projection_grid(b, images, radius, grid_type="Driscoll-Healy"):
     return grid
 
 
+@timeit
 def pairwise_distance(grid, images, ctype="Gaussian"):
     """Compute the distance between a point cloud and grid
     :param ctype: "Gaussian" or "Potential"
