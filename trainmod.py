@@ -1,9 +1,11 @@
+from __future__ import division
 import torch.nn as nn
 from s2cnn import SO3Convolution
 from s2cnn import S2Convolution
 from s2cnn import so3_near_identity_grid
 from s2cnn import s2_near_identity_grid
 import torch.nn.functional as F
+from torch.nn.init import *
 import h5py
 import argparse
 from utils import *
@@ -28,6 +30,7 @@ class S2ConvNet(nn.Module):
         self.b_in = self.para_dict['b_in']
         self.b_l1 = self.para_dict['b_l1']
         self.b_l2 = self.para_dict['b_l2']
+#        self.kernel_size = self.para_dict['kernel_size']
 
         grid_s2 = s2_near_identity_grid()
         grid_so3 = so3_near_identity_grid()
@@ -46,9 +49,11 @@ class S2ConvNet(nn.Module):
             b_out=self.b_l2,
             grid=grid_so3)
 
-        self.conv3 = nn.Conv1d(in_channels=1, out_channels=10, kernel_size=8)
-        self.bn3 = nn.BatchNorm1d(num_features=10)
-        self.out_layer = nn.Linear(10 * (self.num_points * self.f2 - 8 + 1), self.f_output)
+        self.maxPool = nn.MaxPool1d(kernel_size=self.num_points)
+#        self.conv3 = nn.Conv1d(in_channels=1, out_channels=2, kernel_size=self.kernel_size)
+#        self.bn3 = nn.BatchNorm1d(num_features=2)
+#        self.out_layer = nn.Linear(2 * (self.num_points * self.f2 - self.kernel_size + 1), self.f_output)
+        self.out_layer = nn.Linear(self.f2, self.f_output)
 
     def forward(self, x):
         conv1 = self.conv1(x)
@@ -56,17 +61,25 @@ class S2ConvNet(nn.Module):
         conv2 = self.conv2(relu1)
         relu2 = F.relu(conv2) ###
         in_data = relu2[:, :, 0, 0, 0]
-        in_reshape = in_data.reshape(self.batch_size, 1, self.num_points * self.f2)  # B * C * L
-        conv3 = self.conv3(in_reshape)  # (B, 1, L) -> (B, 10, L'), L' = num_points * f2 - kernel_size + 1
-        relu3 = F.relu(conv3)
-        bn3 = self.bn3(relu3)
-        bn3_reshape = bn3.reshape((self.batch_size, -1))  # (B, 10 * L')
-        output = self.out_layer(bn3_reshape)
-
+        in_reshape = in_data.reshape(self.batch_size, self.num_points, self.f2)  # B * 512 * L
+        pool3 = self.maxPool(in_reshape)
+        pool3 = pool3.squeeze()  # -> (B, L)
+        # conv3 = self.conv3(in_reshape)  # (B, 1, L) -> (B, 10, L'), L' = num_points * f2 - kernel_size + 1
+        # relu3 = F.relu(conv3)
+        # bn3 = self.bn3(relu3)
+        # bn3_reshape = bn3.reshape((self.batch_size, -1))  # (B, 10 * L')
+        # output = self.out_layer(bn3_reshape)
+        output = self.out_layer(pool3)
         # x = so3_integrate(x)
         # x = self.out_layer(x)
         # return x
         return output
+
+
+def init_weights(m):
+    if type(m) == nn.Conv1d:
+        xavier_normal_(m.weight.data)
+        constant_(m.bias.data, 0)
 
 
 def main():
@@ -123,7 +136,7 @@ def main():
     parser.add_argument("--learning-rate",
                         help="learning rate of the model",
                         type=float,
-                        default=5e-3,
+                        default=5e-4,
                         required=False)
 
     args = parser.parse_args()
@@ -149,7 +162,9 @@ def main():
     else:
         raise UtilityError("invalid utility type, should be chosen from 'Gaussian' or 'Potential'.")
     logger.info("finish loading MNIST data and basic configuration")
-
+   
+   #  gpuStats()
+   #  memReport()
     ####################################################################################################################
     """load train and test set, and calculate radius"""
     logger.info("start loading train and test set")
@@ -162,7 +177,9 @@ def main():
     # test_np_dataset = f_test['data'][()][0:test_size]
     # test_torch_dataset = torch.from_numpy(test_np_dataset)  # convert from numpy.ndarray to torch.Tensor
 
-    radius = get_radius(train_dataset)
+    # radius = get_radius(train_dataset)
+    radius = 0.017857
+    # print(radius)
 
     """add z dimension if 2D point set"""
     if train_dataset.shape[-1] == 2:
@@ -174,6 +191,8 @@ def main():
         train_dataset = torch.cat((train_dataset, zero_padding), -1) # -> [train_size, 512, 3]
     logger.info("finish loading train dataset")
 
+   #  gpuStats()
+   #  memReport()
     ####################################################################################################################
     """data loader and net loader"""
     logger.info("start initialize the dataloader, and network")
@@ -183,17 +202,21 @@ def main():
                                                        labelset=tensor_label_train,
                                                        batch_size=args.batchsize,
                                                        valid_size=args.validsize)
+   # memReport()
+   #  print(torch.cuda.memory_allocated())
     parameter_dict = {
         'batchsize': args.batchsize,
         'num_points': 512,
-        'f1': 2,
-        'f2': 4,
+        'f1': 20,
+        'f2': 40,
         'f_output': 10,  # should be the number of classes
         'b_in': args.bandwidth,
-        'b_l1': 8,
-        'b_l2': 4
+        'b_l1': 10,
+        'b_l2': 6
+        # 'kernel_size': 32
     }
     classifier = S2ConvNet(parameter_dict)
+#    classifier.apply(init_weights)
     classifier.cuda()
 
     print("#params", sum(x.numel() for x in classifier.parameters()))
@@ -206,11 +229,13 @@ def main():
         lr=args.learning_rate)
     logger.info("finish loading the network")
 
+   #  gpuStats()
+   #  memReport()
     ####################################################################################################################
     """start iteration"""
     logger.info("start training")
+    i = 0
     for epoch in range(args.num_epochs):
-        i = 0
         for tl in train_loader:
             images = tl['point'] # (b, 512, 3)
             labels = tl['label']  # shape [1]
@@ -224,21 +249,32 @@ def main():
 
             images = images.cuda().float()
             labels = labels.cuda()
+            debug_memory()
+            #memReport()
 
             optimizer.zero_grad()
             outputs = classifier(images)
+
+            _, predicted = torch.max(outputs, 1)
+            print(images)
+            print(predicted)
+            print(labels)
+            correct = (predicted == labels).long().sum().item()
+            acc = 100 * correct / args.batchsize
+
             loss = criterion(outputs, labels)
             loss.backward()
 
             optimizer.step()
 
-            logger.info("Epoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f}".format(
+            logger.info("Epoch [{0}/{1}], Iter [{2}/{3}] Loss: {4:.4f} Acc: {5}".format(
                 epoch + 1, args.num_epochs, i + 1, len(train_dataset) * (1 - args.validsize) // args.batchsize,
-                loss.item()
+                loss.item(), acc
             ))
 
             i = i + 1
-            writer.add_scalar("loss", loss.item(), i)            
+            writer.add_scalar("train loss", loss.item(), i)
+            writer.add_scalar("train acc", acc, i)
 
         correct = 0
         total = 0
@@ -246,10 +282,10 @@ def main():
             images = vl['point']
             labels = vl['label']
             images = translation(
-                images = images,
-                bandwidth = args.bandwidth,
-                radius = radius,
-                utility_type = utility_type
+                images=images,
+                bandwidth=args.bandwidth,
+                radius=radius,
+                utility_type=utility_type
             )
 
             classifier.eval()
@@ -263,7 +299,7 @@ def main():
                 total += labels.size(0)
                 correct += (predicted == labels).long().sum().item()
         logger.info("TEST ACC: {0}".format(100 * correct / total))
-        writer.add_scalar("eval loss", 100 * correct / total, epoch)
+        writer.add_scalar("eval acc", 100 * correct / total, epoch)
 
     writer.export_scalars_to_json("./all_scalars.json")
     writer.close()

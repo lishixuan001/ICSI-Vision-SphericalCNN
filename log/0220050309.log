@@ -1,0 +1,33 @@
+2019-02-20 05:03:09 INFO     call with args: 
+Namespace(bandwidth=10, batchsize=80, demo=False, learning_rate=0.0005, num_epochs=20, output_prefix='../mnistPC', signal_type='Gaussian', test_file_path='../mnistPC/test.hdf5', train_file_path='../mnistPC/train.hdf5', validsize=0.16666666666666666)
+2019-02-20 05:03:09 INFO     getting MNIST data and basic configuration
+2019-02-20 05:03:09 INFO     finish loading MNIST data and basic configuration
+2019-02-20 05:03:09 INFO     start loading train and test set
+2019-02-20 05:03:10 INFO     finish loading train dataset
+2019-02-20 05:03:10 INFO     start initialize the dataloader, and network
+2019-02-20 05:03:17 INFO     finish loading the network
+2019-02-20 05:03:17 INFO     start training
+2019-02-20 05:03:22 INFO     Epoch [1/20], Iter [1/625.0] Loss: 2.3625 Acc: 8.75
+2019-02-20 05:03:22 INFO     Epoch [1/20], Iter [2/625.0] Loss: 5.9111 Acc: 11.25
+2019-02-20 05:03:22 INFO     Epoch [1/20], Iter [3/625.0] Loss: 7.1985 Acc: 7.5
+2019-02-20 05:03:22 INFO     Epoch [1/20], Iter [4/625.0] Loss: 3.1348 Acc: 18.75
+2019-02-20 05:03:23 INFO     Epoch [1/20], Iter [5/625.0] Loss: 3.8263 Acc: 7.5
+2019-02-20 05:03:23 INFO     Epoch [1/20], Iter [6/625.0] Loss: 4.4359 Acc: 6.25
+2019-02-20 05:03:23 INFO     Epoch [1/20], Iter [7/625.0] Loss: 4.3519 Acc: 6.25
+2019-02-20 05:03:24 INFO     Epoch [1/20], Iter [8/625.0] Loss: 3.8542 Acc: 11.25
+2019-02-20 05:03:24 INFO     Epoch [1/20], Iter [9/625.0] Loss: 4.1393 Acc: 7.5
+2019-02-20 05:03:24 INFO     Epoch [1/20], Iter [10/625.0] Loss: 3.3964 Acc: 10.0
+2019-02-20 05:03:24 INFO     Epoch [1/20], Iter [11/625.0] Loss: 2.9355 Acc: 11.25
+2019-02-20 05:03:25 INFO     Epoch [1/20], Iter [12/625.0] Loss: 2.6809 Acc: 8.75
+2019-02-20 05:03:25 INFO     Epoch [1/20], Iter [13/625.0] Loss: 2.9906 Acc: 13.75
+2019-02-20 05:03:25 INFO     Epoch [1/20], Iter [14/625.0] Loss: 2.9893 Acc: 8.75
+2019-02-20 05:03:25 INFO     Epoch [1/20], Iter [15/625.0] Loss: 2.4415 Acc: 10.0
+2019-02-20 05:03:26 INFO     Epoch [1/20], Iter [16/625.0] Loss: 2.9147 Acc: 7.5
+2019-02-20 05:03:26 INFO     Epoch [1/20], Iter [17/625.0] Loss: 2.6270 Acc: 8.75
+2019-02-20 05:03:26 INFO     Epoch [1/20], Iter [18/625.0] Loss: 2.6315 Acc: 7.5
+2019-02-20 05:03:27 INFO     Epoch [1/20], Iter [19/625.0] Loss: 2.7660 Acc: 11.25
+2019-02-20 05:03:27 INFO     Epoch [1/20], Iter [20/625.0] Loss: 3.0525 Acc: 5.0
+2019-02-20 05:03:27 INFO     Epoch [1/20], Iter [21/625.0] Loss: 2.9459 Acc: 8.75
+2019-02-20 05:03:27 INFO     Epoch [1/20], Iter [22/625.0] Loss: 2.6146 Acc: 10.0
+2019-02-20 05:03:28 INFO     Epoch [1/20], Iter [23/625.0] Loss: 2.6532 Acc: 10.0
+2019-02-20 05:03:28 INFO     Epoch [1/20], Iter [24/625.0] Loss: 2.4928 Acc: 16.25
