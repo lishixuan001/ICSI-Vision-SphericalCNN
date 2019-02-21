@@ -2,9 +2,44 @@
 > Implementation of Sphereical CNNs on PointCloud datasets
 
 ## Training & Running [Notes]
+### File layout
+---ICSI-Vision\
+ |  |---train.py\
+ |  |---utils.py\
+ |  |---logger.py\
+ |  |---setup_s2cnn.py\
+ |  |---log/\
+ |  |---cache/\
+ |  |---s2cnn/\
+ |  |---runs/\
+ |-mnistPC/
+ 
 ### Data Generation
 * Logger messages are stored in **/log**, recording maintainable results
-* Outputs (for **ts** in **trainset**) are stored in output.txt
+
+### Training
+```commandline
+python3 train.py --bandwidth [bandwidth] --batchsize [batchsize]
+```
+
+### Result
+The loss and accuracy curve is stored in **TensorBoard_overfitting_trainacc_misdisplay.pdf**
+and **TensorBoard_underfitting.pdf**, which, as the name suggested:
+one is the overfitting curve (the x-axis is mis-representing, it should be a monotonically increase);
+the other is a underfitting curve, which, I trained for 30 epochs, with the following parameter:
+```python
+    parameter_dict = {
+        'batchsize': 80,
+        'num_points': 512,
+        'f1': 4,
+        'f2': 8,
+        'f_output': 10,  # should be the number of classes
+        'b_in': 30,
+        'b_l1': 4,
+        'b_l2': 2,
+        'kernel_size': 32
+    }
+```
 
 ## important notes
 ### explanation on same distance array
