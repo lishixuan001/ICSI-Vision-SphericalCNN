@@ -4,6 +4,7 @@ from s2cnn import SO3Convolution
 from s2cnn import S2Convolution
 from s2cnn import so3_near_identity_grid
 from s2cnn import s2_near_identity_grid
+from s2cnn import so3_integrate
 import torch.nn.functional as F
 from torch.nn.init import *
 import h5py
@@ -50,9 +51,6 @@ class S2ConvNet(nn.Module):
             grid=grid_so3)
 
         self.maxPool = nn.MaxPool1d(kernel_size=self.num_points)
-#        self.conv3 = nn.Conv1d(in_channels=1, out_channels=2, kernel_size=self.kernel_size)
-#        self.bn3 = nn.BatchNorm1d(num_features=2)
-#        self.out_layer = nn.Linear(2 * (self.num_points * self.f2 - self.kernel_size + 1), self.f_output)
         self.out_layer = nn.Linear(self.f2, self.f_output)
 
     def forward(self, x):
@@ -60,9 +58,10 @@ class S2ConvNet(nn.Module):
         relu1 = F.relu(conv1)
         conv2 = self.conv2(relu1)
         relu2 = F.relu(conv2) ###
-        in_data = relu2[:, :, 0, 0, 0]
-        in_reshape = in_data.reshape(self.batch_size, self.num_points, self.f2)  # B * 512 * L
-        pool3 = self.maxPool(in_reshape)
+        in_data = so3_integrate(relu2)  # -> (B * 512, 40), get rid of the (2b, 2b, 2b)
+        in_reshape = in_data.reshape(self.batch_size, self.num_points, self.f2)  # (B, 512, L)
+        in_reshape = in_reshape.transpose_(2, 1)  # -> (B, L, 512)
+        pool3 = self.maxPool(in_reshape)  # -> (B, L)
         pool3 = pool3.squeeze()  # -> (B, L)
         # conv3 = self.conv3(in_reshape)  # (B, 1, L) -> (B, 10, L'), L' = num_points * f2 - kernel_size + 1
         # relu3 = F.relu(conv3)
@@ -207,12 +206,12 @@ def main():
     parameter_dict = {
         'batchsize': args.batchsize,
         'num_points': 512,
-        'f1': 20,
-        'f2': 40,
+        'f1': 5,
+        'f2': 10, # 40
         'f_output': 10,  # should be the number of classes
         'b_in': args.bandwidth,
-        'b_l1': 10,
-        'b_l2': 6
+        'b_l1': 8,
+        'b_l2': 4
         # 'kernel_size': 32
     }
     classifier = S2ConvNet(parameter_dict)
@@ -249,16 +248,16 @@ def main():
 
             images = images.cuda().float()
             labels = labels.cuda()
-            debug_memory()
+#            debug_memory()
             #memReport()
 
             optimizer.zero_grad()
             outputs = classifier(images)
 
             _, predicted = torch.max(outputs, 1)
-            print(images)
-            print(predicted)
-            print(labels)
+           # print(images)
+           # print(predicted)
+           # print(labels)
             correct = (predicted == labels).long().sum().item()
             acc = 100 * correct / args.batchsize
 
